@@ -58,9 +58,10 @@ case '7':
 
 /* instruction fetch */
 /* 10 Points */
-int instruction_fetch(unsigned PC,unsigned *Mem,unsigned *instruction)
+int instruction_fetch(unsigned PC,unsigned *Mem, unsigned *instruction)
 {
-
+  *instruction = Mem[PC >> 2];
+  return 1;
 }
 
 
