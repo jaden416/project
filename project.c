@@ -5,7 +5,55 @@
 /* 10 Points */
 void ALU(unsigned A,unsigned B,char ALUControl,unsigned *ALUresult,char *Zero)
 {
+unsigned Z;
 
+switch (ALUControl)
+{
+case '0':
+  // Z = A + B
+  Z = A + B;
+  break;
+
+case '1':
+  // Z = A – B 
+  Z = A - B;
+  break;
+
+case '2':
+  // if A < B, Z = 1; otherwise, Z = 0 
+  Z = (A < B) ? 1 : 0;
+  break;
+
+case '3':
+  // if A < B, Z = 1; otherwise, Z = 0 (A and B are unsigned integers)
+  Z = (A < B) ? 1 : 0;
+  break;
+
+case '4':
+  // Z = A AND B
+  Z = A && B;
+  break;
+
+case '5':
+  // Z = A OR B
+  Z = A || B;
+  break;
+
+case '6':
+  // Z = Shift B left by 16 bits
+    Z = B << 16;
+  break;
+
+case '7':
+  //Z = NOT A 
+  Z = !A;
+  break;
+}
+
+*ALUresult = Z;
+
+
+*Zero = (!ALUresult) ? 0 : 1;
 }
 
 /* instruction fetch */
