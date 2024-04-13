@@ -75,9 +75,7 @@ int instruction_fetch(unsigned PC, unsigned *Mem, unsigned *instruction) {
 
 /* instruction partition */
 /* 10 Points */
-void instruction_partition(unsigned instruction, unsigned *op, unsigned *r1,
-                           unsigned *r2, unsigned *r3, unsigned *funct,
-                           unsigned *offset, unsigned *jsec) {
+void instruction_partition(unsigned instruction, unsigned *op, unsigned *r1, unsigned *r2, unsigned *r3, unsigned *funct, unsigned *offset, unsigned *jsec) {
   *op = (instruction >> 26) & 0x3F; // bits 31-26
   *r1 = (instruction >> 21) & 0x1F; // bits 25-21
   *r2 = (instruction >> 16) & 0x1F; // bits 20-16
@@ -107,31 +105,40 @@ int instruction_decode(unsigned op, struct_controls *controls) {
     controls->ALUOp = 7;
     break;
   case 0x08: // addi
+
   case 0x09: // addiu
+
   case 0x0C: // andi
+
   case 0x0D: // ori
+
   case 0x0E: // xori
     controls->RegWrite = 1;
     controls->ALUSrc = 1;
     controls->ALUOp = 0; // addition
-    break;
+  break;
+
   case 0x04: // beq
+
   case 0x05: // bne
     controls->Branch = 1;
     controls->ALUOp = 1; // subtraction
-    break;
+  break;
+
   case 0x23: // lw
     controls->ALUSrc = 1;
     controls->MemRead = 1;
     controls->RegWrite = 1;
     controls->MemtoReg = 1;
     controls->ALUOp = 0; // addition
-    break;
+  break;
+
   case 0x2B: // sw
     controls->ALUSrc = 1;
     controls->MemWrite = 1;
     controls->ALUOp = 0; // addition
-    break;
+  break;
+
   default:
     printf("Illegal instruction encountered: opcode = %x\n", op);
     return 1;
@@ -142,8 +149,7 @@ int instruction_decode(unsigned op, struct_controls *controls) {
 
 /* Read Register */
 /* 5 Points */
-void read_register(unsigned r1, unsigned r2, unsigned *Reg, unsigned *data1,
-                   unsigned *data2) {
+void read_register(unsigned r1, unsigned r2, unsigned *Reg, unsigned *data1, unsigned *data2) {
   *data1 = Reg[r1];
   *data2 = Reg[r2];
 }
@@ -156,9 +162,7 @@ void sign_extend(unsigned offset, unsigned *extended_value) {
 
 /* ALU operations */
 /* 10 Points */
-int ALU_operations(unsigned data1, unsigned data2, unsigned extended_value,
-                   unsigned funct, char ALUOp, char ALUSrc, unsigned *ALUresult,
-                   char *Zero) {
+int ALU_operations(unsigned data1, unsigned data2, unsigned extended_value, unsigned funct, char ALUOp, char ALUSrc, unsigned *ALUresult, char *Zero) {
   unsigned A = data1;
   unsigned B = ALUSrc ? extended_value : data2;
   char ALUControl = 0;
@@ -187,35 +191,35 @@ int ALU_operations(unsigned data1, unsigned data2, unsigned extended_value,
     break;
   case 7: // R-type
     switch (funct) {
-    case 0x20: // add
-      ALUControl = '0';
-      break;
-    case 0x21: // addu
-      ALUControl = '0';
-      break;
-    case 0x22: // sub
-      ALUControl = '1';
-      break;
-    case 0x24: // and
-      ALUControl = '4';
-      break;
-    case 0x25: // or
-      ALUControl = '5';
-      break;
-    case 0x27: // nor
-      ALUControl = '5';
-      *ALUresult = ~(*ALUresult);
-      break;
-    case 0x2A: // slt
-      ALUControl = '2';
-      break;
-    case 0x2B: // sltu
-      ALUControl = '3';
-      break;
-    default:
-      printf("Illegal instruction encountered: funct = %x\n", funct);
-      return 1;
-    }
+  case 0x20: // add
+    ALUControl = '0';
+    break;
+  case 0x21: // addu
+    ALUControl = '0';
+    break;
+  case 0x22: // sub
+    ALUControl = '1';
+    break;
+  case 0x24: // and
+    ALUControl = '4';
+    break;
+  case 0x25: // or
+    ALUControl = '5';
+    break;
+  case 0x27: // nor
+    ALUControl = '5';
+    *ALUresult = ~(*ALUresult);
+    break;
+  case 0x2A: // slt
+    ALUControl = '2';
+    break;
+  case 0x2B: // sltu
+    ALUControl = '3';
+    break;
+  default:
+    printf("Illegal instruction encountered: funct = %x\n", funct);
+    return 1;
+  }
     break;
   default:
     printf("Illegal ALUOp encountered: %d\n", ALUOp);
@@ -229,8 +233,7 @@ int ALU_operations(unsigned data1, unsigned data2, unsigned extended_value,
 
 /* Read / Write Memory */
 /* 10 Points */
-int rw_memory(unsigned ALUresult, unsigned data2, char MemWrite, char MemRead,
-              unsigned *memdata, unsigned *Mem) {
+int rw_memory(unsigned ALUresult, unsigned data2, char MemWrite, char MemRead, unsigned *memdata, unsigned *Mem) {
   unsigned address = ALUresult >> 2;
 
   if (address >= MEMSIZE) {
@@ -249,9 +252,7 @@ int rw_memory(unsigned ALUresult, unsigned data2, char MemWrite, char MemRead,
 
 /* Write Register */
 /* 10 Points */
-void write_register(unsigned r2, unsigned r3, unsigned memdata,
-                    unsigned ALUresult, char RegWrite, char RegDst,
-                    char MemtoReg, unsigned *Reg) {
+void write_register(unsigned r2, unsigned r3, unsigned memdata, unsigned ALUresult, char RegWrite, char RegDst, char MemtoReg, unsigned *Reg) {
   if (RegWrite) {
     unsigned regnum = RegDst ? r3 : r2;
     unsigned data = MemtoReg ? memdata : ALUresult;
@@ -261,8 +262,7 @@ void write_register(unsigned r2, unsigned r3, unsigned memdata,
 
 /* PC update */
 /* 10 Points */
-void PC_update(unsigned jsec, unsigned extended_value, char Branch, char Jump,
-               char Zero, unsigned *PC) {
+void PC_update(unsigned jsec, unsigned extended_value, char Branch, char Jump, char Zero, unsigned *PC) {
   unsigned target_address;
 
   if (Branch && Zero) {
