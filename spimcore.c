@@ -92,15 +92,15 @@ void Init(void)
 void DisplayControlSignals(void)
 {
 	fprintf(stdout, "\tControl Signals: %0x%0x%0x%0x%03x%0x%0x%0x%0x\n", 
-			controls.RegDst, 
-			controls.Jump, 
-			controls.Branch, 
-			controls.MemRead, 
-			controls.MemtoReg, 
-			controls.ALUOp, 
-			controls.MemWrite, 
-			controls.ALUSrc, 
-			controls.RegWrite);
+		controls.RegDst, 
+		controls.Jump, 
+		controls.Branch, 
+		controls.MemRead, 
+		controls.MemtoReg, 
+		controls.ALUOp, 
+		controls.MemWrite, 
+		controls.ALUSrc, 
+		controls.RegWrite);
 }
 
 
