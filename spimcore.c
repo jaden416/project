@@ -1,4 +1,5 @@
 #include "spimcore.h"
+#include "project.c"
 
 #define MEMSIZE (65536 >> 2)
 #define REGSIZE 32
