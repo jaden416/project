@@ -141,7 +141,7 @@ int instruction_decode(unsigned op, struct_controls *controls) {
     controls->RegWrite = 0;
     break;
   case 0x04: // beq instruction
-             // Handle branch instruction
+    // Handle branch instruction
     printf("Decoding beq instruction\n");
     controls->RegDst = 2;
     controls->Jump = 0;
