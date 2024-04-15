@@ -155,17 +155,14 @@ int instruction_decode(unsigned op, struct_controls *controls) {
     break;
   case 0xf: // lui instruction
     printf("Decoding lui instruction\n");
-    controls->RegDst =
-        0; // The result of lui is stored in the destination register
+    controls->RegDst = 0; // The result of lui is stored in the destination register
     controls->Jump = 0;
     controls->Branch = 0;
     controls->MemRead = 0;
     controls->MemtoReg = 0;
-    controls->ALUOp =
-        6; // The ALU operation is shifting the immediate value left by 16 bits
+    controls->ALUOp = 6; // The ALU operation is shifting the immediate value left by 16 bits
     controls->MemWrite = 0;
-    controls->ALUSrc =
-        1; // The immediate value is the second operand for the ALU
+    controls->ALUSrc = 1; // The immediate value is the second operand for the ALU
     controls->RegWrite = 1; // Write to register
     break;
   default:
